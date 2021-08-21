@@ -3,12 +3,27 @@ import { Counter } from './features/counter/Counter';
 import './App.css';
 
 const App: React.FC = () => {
-  const [status, setStatus] = useState<string>("TEXT")
+  const [status, setStatus] = useState<string>("TEXT");
+  const [input, setInput] = useState("");
+  const [counter, setCounter] = useState(0);
+
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement> ) => {
+    setInput(e.target.value)
+  }
+  useEffect(() => {
+    console.log("useEffect in App invoked!");
+    document.title = `current value is ${counter}` // ブラウザのタイトル
+  },[counter]); // 第二引数に何も指定しないとレンダリングごとに実行される
+
   return (
     <div className="App">
       <header className="App-header">
         <h4>{status}</h4>
         <button onClick={() => setStatus("new TEXT")}>Button</button>
+        <h4>{input}</h4>
+        <input type="text" value={input} onChange={onChangeHandler} />
+        <h4>{counter}</h4>
+        <button onClick={() => setCounter((preCounter) => preCounter+1)}>Increment</button>
         <Counter />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
